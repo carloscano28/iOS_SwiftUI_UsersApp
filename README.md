@@ -1,3 +1,5 @@
+
+
 📱 iOS Clean Architecture Base (SwiftUI + async/await + Swinject)
 This project is a modular SwiftUI-based iOS app implementing Clean Architecture, using modern concurrency (async/await) and dependency injection with Swinject.
 
@@ -6,6 +8,7 @@ This project is a modular SwiftUI-based iOS app implementing Clean Architecture,
 🧱 Architecture Overview
 The architecture follows the Clean Architecture principles, promoting separation of concerns, testability, and scalability.
 
+---
 
 Project Structure
 
@@ -46,10 +49,10 @@ Project Structure
 📂 Example Flow
 UserView → UserViewModelState → GetUserNameUseCase → UserRepository → RemoteDataSource
 
-Simulated API returns a fake user after a delay:
-
-```swift
-Carlos Cano from fake remote API (async)
+Simulated API returns a simulated API call after a delay: 
+    "API Simulated From RemoteUserDataSource" (async)
+    
+---
 
 🚧 Potential Improvements
  Connect to a real REST API using URLSession or Alamofire
@@ -63,6 +66,8 @@ Carlos Cano from fake remote API (async)
  Replace string-based result with a model (User struct)
 
  Support multi-feature navigation and app-wide composition
+ 
+---
 
 💡 How to Use
 Once you clone the repo, make sure dependencies are resolved:
@@ -73,14 +78,19 @@ Go to File > Packages > Resolve Package Versions
 
 Build and run the project on simulator or device
 
-📸 Preview (Optional)
-Add a screenshot or a short GIF here showing the SwiftUI app in action.
+📸 Preview
+
+---
 
 📄 License
 MIT License
 
+---
+
 👨‍💻 Author
 Carlos Cano
 iOS & Android Developer focused on Clean Architecture and scalable design.
-GitHub: carloscano28 
+GitHub: @carloscano28 
 LinkedIn Profile: https://www.linkedin.com/in/carlos-c-bb3a2b316/
+
+---
