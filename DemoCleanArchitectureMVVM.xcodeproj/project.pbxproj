@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43AA09A22E0D00310050184A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 43AA09A12E0D00310050184A /* .gitignore */; };
+		43AA09A62E0D061C0050184A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 43AA09A52E0D061C0050184A /* README.md */; };
 		43D36E442E0BB3FE0044D1E4 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 43D36E432E0BB3FE0044D1E4 /* Swinject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43AA09A12E0D00310050184A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		43AA09A52E0D061C0050184A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		43D36E112E0B81150044D1E4 /* DemoCleanArchitectureMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoCleanArchitectureMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -39,6 +43,8 @@
 			children = (
 				43D36E132E0B81150044D1E4 /* DemoCleanArchitectureMVVM */,
 				43D36E122E0B81150044D1E4 /* Products */,
+				43AA09A52E0D061C0050184A /* README.md */,
+				43AA09A12E0D00310050184A /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,6 +124,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43AA09A22E0D00310050184A /* .gitignore in Resources */,
+				43AA09A62E0D061C0050184A /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
