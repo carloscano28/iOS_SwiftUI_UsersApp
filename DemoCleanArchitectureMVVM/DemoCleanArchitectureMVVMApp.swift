@@ -1,6 +1,6 @@
 //
 //  DemoCleanArchitectureMVVMApp.swift
-//  DemoCleanArchitectureMVVM
+//  DemoCleanArchitectureMVVM With SwiftUI
 //
 //  Created by Carlos R on 24/06/25.
 //
