@@ -1,11 +1,14 @@
 
-📱 iOS DemoCleanArchitectureMVVM – SwiftUI + async/await + Swinject
+📱 iOS DemoCleanArchitectureMVVM – SwiftUI + async/await + Swinject.
+
 This project implements Clean Architecture for an iOS app using SwiftUI, async/await, Swinject, and an external API to fetch users.
 
 ---
 
 🧱 Architecture Overview
+
 The architecture follows Clean Architecture principles with clear separation of concerns:
+
 ```
 Domain/
 ├── Entities/ # e.g., User
@@ -97,8 +100,11 @@ MIT License
 
 👨‍💻 Author
 Carlos Cano
+
 iOS & Android Developer focused on Clean Architecture and scalable design.
+
 GitHub: @carloscano28 
+
 LinkedIn Profile: https://www.linkedin.com/in/carlos-c-bb3a2b316/
 
 ---
