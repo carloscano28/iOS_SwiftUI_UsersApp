@@ -1,96 +1,134 @@
 
+📱 iOS DemoCleanArchitectureMVVM – SwiftUI + async/await + Swinject.
 
-📱 iOS Clean Architecture Base (SwiftUI + async/await + Swinject)
-This project is a modular SwiftUI-based iOS app implementing Clean Architecture, using modern concurrency (async/await) and dependency injection with Swinject.
+This project implements Clean Architecture for an iOS app using SwiftUI, async/await, Swinject, and an external API to fetch users.
 
 ---
 
 🧱 Architecture Overview
-The architecture follows the Clean Architecture principles, promoting separation of concerns, testability, and scalability.
+
+The architecture follows Clean Architecture principles with clear separation of concerns:
+
+```
+Domain/
+├── Entities/ # e.g., User
+├── Repositories/ # UserRepository
+└── UseCases/ # GetUserListUseCase
+
+Data/
+├── DataSources/ # RemoteUserDataSource (uses URLSession)
+└── Repositories/ # UserRepositoryImpl
+
+Presentation/
+├── ViewModels/ # UserListViewModel
+├── Views/ # UserListView, UserDetailView
+└── Common/ # ViewState<T>
+
+DI/
+└── AppContainer.swift # Swinject setup
+```
 
 ---
 
-Project Structure
 
-├── Domain
-│ ├── repositories/ # Protocols defining business rules
-│ └── usecases/ # Use cases orchestrating domain logic
-├── Data
-│ ├── datasources/ # Concrete data sources (e.g., API)
-│ └── repositories/ # Repository implementations
-├── Presentation
-│ ├── viewmodels/ # SwiftUI-compatible ViewModels
-│ └── views/ # SwiftUI views
-├── DI
-│ └── AppContainer.swift # Dependency injection setup
+📦 Tech Stack
+| Tech         | Purpose                                      |
+|--------------|----------------------------------------------|
+| Swift        | Language                                     |
+| SwiftUI      | UI layer                                     |
+| async/await  | Concurrency                                  |
+| Swinject     | Dependency Injection                         |
+| URLSession   | Networking                                   |
+| jsonplaceholder.typicode.com | Public API                   |
+
 
 ---
 
-🚀 Technologies Used
-| Technology      | Purpose                                |
-|----------------|------------------------------------------|
-| Swift       | Primary language                        |
-| SwiftUI     | Declarative UI framework                |
-| Swinject    | Dependency Injection container          |
-| async/await | Modern Swift concurrency model          |
-| Clean Arch  | Layered project structure               |
+🔄 Features
+
+```
+✅ Clean Architecture with UseCases and Repositories
+✅ Decoupled layers (data, domain, presentation)
+✅ ViewState<T> to represent UI state (loading, success, error)
+✅ UserListView with NavigationStack and UserDetailView
+✅ Real API integration with error handling and retry via Alert
+```
 
 ---
 
-🧠 Key Features
-✅ Scalable, testable Clean Architecture structure
-✅ SwiftUI with @StateObject and ObservableObject
-✅ Asynchronous logic using async/await
-✅ Swinject-based DI container
-✅ ViewModel is fully decoupled from data layer
+
+📡 API Used
+
+
+https://jsonplaceholder.typicode.com/users
+
+Returns an array of users with id, name, email.
 
 ---
 
-📂 Example Flow
-UserView → UserViewModelState → GetUserNameUseCase → UserRepository → RemoteDataSource
+📱 UI Flow
 
-Simulated API returns a simulated API call after a delay: 
-    "API Simulated From RemoteUserDataSource" (async)
-    
----
-
-🚧 Potential Improvements
- Connect to a real REST API using URLSession or Alamofire
-
- Add persistence layer (e.g., UserDefaults, CoreData, Realm)
-
- Add unit tests using XCTest with mocks
-
- Use a unified ViewState to represent loading, success, and error
-
- Replace string-based result with a model (User struct)
-
- Support multi-feature navigation and app-wide composition
- 
----
-
-💡 How to Use
-Once you clone the repo, make sure dependencies are resolved:
-
-Clean the project (Shift + Cmd + K)
-
-Go to File > Packages > Resolve Package Versions
-
-Build and run the project on simulator or device
-
-📸 Preview
+```
+UserListView
+└── shows loading or user list
+└── on tap → navigates to UserDetailView
+└── on error → shows Alert with Retry 
+```
 
 ---
 
-📄 License
-MIT License
+
+🧠 ViewState Example
+
+```swift
+enum ViewState<T> {
+    case loading
+    case success(data: T)
+    case error(message: String)
+}
+
+Used in @Published var state: ViewState<[User]> inside the ViewModel.
+```
+---
+
+▶️ Getting Started
+
+
+1.- Clone the repo
+
+2.- Open in Xcode 15+
+
+3.- Switch to swiftui_view branch
+
+3.- Build and run
+
+It fetches users from the API and displays them in a list
+
 
 ---
+
+
+🧪 Coming Soon
+```
+ - Add persistence (CoreData)
+ - Unit tests for UseCase and ViewModel
+ - ErrorView and LoadingView components
+ - Dependency inversion for URLSession (mockable) 
+```
+
+---
+
 
 👨‍💻 Author
-Carlos Cano
+
+
+Carlos Roberto Cano Noguera
+
 iOS & Android Developer focused on Clean Architecture and scalable design.
+
 GitHub: @carloscano28 
+
 LinkedIn Profile: https://www.linkedin.com/in/carlos-c-bb3a2b316/
+
 
 ---
