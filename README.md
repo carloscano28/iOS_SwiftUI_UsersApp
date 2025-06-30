@@ -40,12 +40,13 @@ DI/
 ---
 
 🔄 Features
+```
 ✅ Clean Architecture with UseCases and Repositories
 ✅ Decoupled layers (data, domain, presentation)
 ✅ ViewState<T> to represent UI state (loading, success, error)
 ✅ UserListView with NavigationStack and UserDetailView
 ✅ Real API integration with error handling and retry via Alert
-
+```
 ---
 
 📡 API Used
