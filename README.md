@@ -6,7 +6,7 @@ This project implements Clean Architecture for an iOS app using SwiftUI, async/a
 
 🧱 Architecture Overview
 The architecture follows Clean Architecture principles with clear separation of concerns:
-
+```
 Domain/
 ├── Entities/ # e.g., User
 ├── Repositories/ # UserRepository
@@ -23,7 +23,7 @@ Presentation/
 
 DI/
 └── AppContainer.swift # Swinject setup
-
+```
 
 ---
 
@@ -56,11 +56,12 @@ Returns an array of users with id, name, email.
 ---
 
 📱 UI Flow
+```
 UserListView
 └── shows loading or user list
 └── on tap → navigates to UserDetailView
 └── on error → shows Alert with Retry 
-
+```
 ---
 
 🧠 ViewState Example
@@ -72,6 +73,7 @@ enum ViewState<T> {
 }
 
 Used in @Published var state: ViewState<[User]> inside the ViewModel.
+```
 
 ---
 
