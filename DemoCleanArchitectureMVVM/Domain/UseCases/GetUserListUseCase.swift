@@ -5,14 +5,14 @@
 //  Created by Carlos R on 24/06/25.
 //
 
-class GetUserNameUseCase {
+class GetUserListUseCase {
     private let repository: UserRepository
     
     init(repository: UserRepository) {
         self.repository = repository
     }
     
-    func execute() async throws -> String {
-        return try await repository.getUserName()
+    func execute() async throws -> [User] {
+        return try await repository.getUsers()
     }
 }
