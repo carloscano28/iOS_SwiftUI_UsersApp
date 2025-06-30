@@ -53,8 +53,9 @@ DI/
 ---
 
 📡 API Used
+```
 https://jsonplaceholder.typicode.com/users
-
+```
 Returns an array of users with id, name, email.
 
 ---
@@ -82,15 +83,12 @@ Used in @Published var state: ViewState<[User]> inside the ViewModel.
 ---
 
 🧪 Coming Soon
-
- Add persistence (CoreData)
- 
- Unit tests for UseCase and ViewModel
-
- ErrorView and LoadingView components
-
- Dependency inversion for URLSession (mockable) 
-
+```
+ - Add persistence (CoreData)
+ - Unit tests for UseCase and ViewModel
+ - ErrorView and LoadingView components
+ - Dependency inversion for URLSession (mockable) 
+```
 ---
 
 📄 License
@@ -99,12 +97,13 @@ MIT License
 ---
 
 👨‍💻 Author
-Carlos Cano
+```
+Carlos Roberto Cano Noguera
 
 iOS & Android Developer focused on Clean Architecture and scalable design.
 
 GitHub: @carloscano28 
 
 LinkedIn Profile: https://www.linkedin.com/in/carlos-c-bb3a2b316/
-
+```
 ---
