@@ -1,3 +1,4 @@
+//
 //  UserViewModelState.swift
 //  DemoCleanArchitectureMVVM
 //
