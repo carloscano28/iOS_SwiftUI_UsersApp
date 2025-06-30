@@ -4,14 +4,22 @@
 //
 //  Created by Carlos R on 24/06/25.
 //
+import Foundation
 
 protocol RemoteUserDataSource {
-    func fetchUsersNameFromApi() async throws -> String
+    func fetchUsersFromApi() async throws -> [User]
 }
 
 class RemoteUserDataSourceImpl: RemoteUserDataSource {
-    func fetchUsersNameFromApi() async throws -> String {
-        try await Task.sleep(for: .seconds(1))
-        return "API Simulated From RemoteUserDataSource"
+    func fetchUsersFromApi() async throws -> [User] {
+        let url = URL(string: "https://jsonplaceholder.typicode.com/users")!
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode)  else {
+            throw URLError(.badServerResponse)
+        }
+        
+        let users = try JSONDecoder().decode([User].self, from: data)
+        return users
     }
 }

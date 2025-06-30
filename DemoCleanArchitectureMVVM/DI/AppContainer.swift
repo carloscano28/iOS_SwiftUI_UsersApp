@@ -26,13 +26,13 @@ class AppContainer {
         }
         
         // UseCases
-        container.register(GetUserNameUseCase.self) { r in
-            GetUserNameUseCase(repository: r.resolve(UserRepository.self)!)
+        container.register(GetUserListUseCase.self) { r in
+            GetUserListUseCase(repository: r.resolve(UserRepository.self)!)
         }
         
         // ViewModel para SwiftUI
         container.register(UserViewModelState.self) { r in
-            UserViewModelState(getUserNameUseCase: r.resolve(GetUserNameUseCase.self)!)
+            UserViewModelState(getUserListUseCase: r.resolve(GetUserListUseCase.self)!)
         }
                 
     }

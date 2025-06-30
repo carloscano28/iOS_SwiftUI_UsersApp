@@ -6,40 +6,30 @@
 
 import Foundation
 
-//@MainActor
 class UserViewModelState: ObservableObject {
-    @Published var username: String = ""
-    @Published var isLoading: Bool = false
+    @Published var state: ViewState<[User]> = .loading
 
-    private let getUserNameUseCase: GetUserNameUseCase
+    private let getUserListUseCase: GetUserListUseCase
 
-    init(getUserNameUseCase: GetUserNameUseCase) {
-        self.getUserNameUseCase = getUserNameUseCase
+    init(getUserListUseCase: GetUserListUseCase) {
+        self.getUserListUseCase = getUserListUseCase
     }
 
-    func loadUser() {
+    func loadUsers() {
         Task {
-            // Enable loading
             await MainActor.run {
-                self.isLoading = true
+                self.state = .loading
             }
 
             do {
-                let name = try await getUserNameUseCase.execute()
-
-                // Update username on the main thread
+                let users = try await getUserListUseCase.execute()
                 await MainActor.run {
-                    self.username = name
+                    self.state = .success(data: users)
                 }
             } catch {
                 await MainActor.run {
-                    self.username = "Error: (error.localizedDescription)"
+                    self.state = .error(message: error.localizedDescription)
                 }
-            }
-
-            // Disable loading
-            await MainActor.run {
-                self.isLoading = false
             }
         }
     }

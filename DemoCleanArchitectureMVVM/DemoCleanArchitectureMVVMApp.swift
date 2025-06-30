@@ -12,7 +12,7 @@ struct DemoCleanArchitectureMVVMApp: App {
     var body: some Scene {
         WindowGroup {
             let viewModel = AppContainer.shared.container.resolve(UserViewModelState.self)!
-            UserNameView(viewModel: viewModel)
+            UserListView(viewModel: viewModel)
         }
     }
 }

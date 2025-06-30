@@ -1,5 +1,5 @@
 //
-//  GetUserNameUseCase.swift
+//  GetUserListUseCase.swift
 //  DemoCleanArchitectureMVVM
 //
 //  Created by Carlos R on 24/06/25.

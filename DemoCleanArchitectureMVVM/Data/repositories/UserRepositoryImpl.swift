@@ -12,8 +12,8 @@ class UserRepositoryImpl: UserRepository {
         self.remoteDataSource = remoteDataSource
     }
     
-    func getUserName() async throws -> String {
-        return try await remoteDataSource.fetchUsersNameFromApi()
+    func getUsers() async throws -> [User] {
+        return try await remoteDataSource.fetchUsersFromApi()
     }
     
 }
