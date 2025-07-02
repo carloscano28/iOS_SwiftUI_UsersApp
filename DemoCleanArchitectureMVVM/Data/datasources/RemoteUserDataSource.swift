@@ -19,7 +19,7 @@ class RemoteUserDataSourceImpl: RemoteUserDataSource {
             throw URLError(.badServerResponse)
         }
         
-        let users = try JSONDecoder().decode([User].self, from: data)
-        return users
+        let userDTOs = try JSONDecoder().decode([UserDTO].self, from: data)
+        return userDTOs.map { $0.toDomain() }
     }
 }
