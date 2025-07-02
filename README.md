@@ -1,11 +1,11 @@
 
-📱 iOS DemoCleanArchitectureMVVM – SwiftUI + async/await + Swinject.
+# 📱 iOS DemoCleanArchitectureMVVM – SwiftUI + async/await + Swinject.
 
 This project implements Clean Architecture for an iOS app using SwiftUI, async/await, Swinject, and an external API to fetch users.
 
 ---
 
-🧱 Architecture Overview
+## 🧱 Architecture Overview
 
 The architecture follows Clean Architecture principles with clear separation of concerns:
 
@@ -31,7 +31,7 @@ DI/
 ---
 
 
-📦 Tech Stack
+## 📦 Tech Stack
 | Tech         | Purpose                                      |
 |--------------|----------------------------------------------|
 | Swift        | Language                                     |
@@ -44,7 +44,7 @@ DI/
 
 ---
 
-🔄 Features
+## 🔄 Features
 
 ```
 ✅ Clean Architecture with UseCases and Repositories
@@ -57,7 +57,7 @@ DI/
 ---
 
 
-📡 API Used
+## 📡 API Used
 
 
 https://jsonplaceholder.typicode.com/users
@@ -66,7 +66,7 @@ Returns an array of users with id, name, email.
 
 ---
 
-📱 UI Flow
+## 📱 UI Flow
 
 ```
 UserListView
@@ -78,7 +78,7 @@ UserListView
 ---
 
 
-🧠 ViewState Example
+## 🧠 ViewState Example
 
 ```swift
 enum ViewState<T> {
@@ -91,7 +91,7 @@ Used in @Published var state: ViewState<[User]> inside the ViewModel.
 ```
 ---
 
-▶️ Getting Started
+## ▶️ Getting Started
 
 
 1.- Clone the repo
@@ -107,8 +107,20 @@ It fetches users from the API and displays them in a list
 
 ---
 
+🧩 Data Transfer Objects (DTOs)
 
-🧪 Coming Soon
+To improve separation of concerns and follow Clean Architecture principles, a UserDTO was introduced in the data layer.
+
+- UserDTO is responsible for decoding API responses.
+
+- It includes a toDomain() method that converts the DTO into a User domain entity.
+
+- This approach decouples the network data model from the domain model, making the codebase more modular, testable, and maintainable.
+
+---
+
+
+## 🧪 Coming Soon
 ```
  - Add persistence (CoreData)
  - Unit tests for UseCase and ViewModel
@@ -119,7 +131,7 @@ It fetches users from the API and displays them in a list
 ---
 
 
-👨‍💻 Author
+## 👨‍💻 Author
 
 
 Carlos Roberto Cano Noguera
