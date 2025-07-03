@@ -17,6 +17,7 @@ Domain/
 
 Data/
 ├── DataSources/ # RemoteUserDataSource (uses URLSession)
+├── DTOs/ # UserDTO
 └── Repositories/ # UserRepositoryImpl
 
 Presentation/
@@ -119,6 +120,20 @@ To improve separation of concerns and follow Clean Architecture principles, a Us
 
 ---
 
+## 🔌 Simulation Mode
+
+The app supports simulating offline or HTTP error scenarios for development and testing.
+
+You can enable it by setting this flag in `AppContainer.swift`:
+
+```swift
+let impl = RemoteUserDataSourceImpl()
+impl.shouldSimulateError = true // ← Simulate offline or server failure
+```
+
+This will trigger the .error state in the ViewModel, allowing you to test UI behavior when the network fails.
+
+---
 
 ## 🧪 Coming Soon
 ```
