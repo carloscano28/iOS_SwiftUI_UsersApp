@@ -16,8 +16,13 @@ class AppContainer {
         container = Container()
         
         // DataSources
-        container.register(RemoteUserDataSource.self) { _ in
+       /* container.register(RemoteUserDataSource.self) { _ in
             RemoteUserDataSourceImpl()
+        }*/
+        container.register(RemoteUserDataSource.self) { _ in
+            let ds = RemoteUserDataSourceImpl()
+            ds.shouldSimulateError = true // Set to true for testing offline
+            return ds
         }
         
         // Repository
