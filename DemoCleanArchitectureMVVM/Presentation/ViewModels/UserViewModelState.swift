@@ -9,6 +9,7 @@ import Foundation
 
 class UserViewModelState: ObservableObject {
     @Published var state: ViewState<[User]> = .loading
+    @Published var isFromCache: Bool = false
 
     private let getUserListUseCase: GetUserListUseCase
 
@@ -23,9 +24,10 @@ class UserViewModelState: ObservableObject {
             }
 
             do {
-                let users = try await getUserListUseCase.execute()
+                let response = try await getUserListUseCase.execute()
                 await MainActor.run {
-                    self.state = .success(data: users)
+                    isFromCache = (response.source == .cache)
+                    self.state = .success(data: response.users)
                 }
             } catch {
                 await MainActor.run {

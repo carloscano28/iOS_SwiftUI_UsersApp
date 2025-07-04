@@ -17,14 +17,14 @@ class UserRepositoryImpl: UserRepository {
         self.localDataSource = localDataSource
     }
 
-    func getUsers() async throws -> [User] {
+    func getUsers() async throws -> UserResponse {
         do {
             let users = try await remoteDataSource.fetchUsersFromApi()
             try? localDataSource.saveUsers(users) // Save locally, ignore failure
-            return users
+            return UserResponse(users: users, source: .remote)
         } catch {
-            // On error, fallback to local cache
-            return try localDataSource.getCachedUsers()
+            let cached = try localDataSource.getCachedUsers()
+            return UserResponse(users: cached, source: .cache)
         }
     }
 }

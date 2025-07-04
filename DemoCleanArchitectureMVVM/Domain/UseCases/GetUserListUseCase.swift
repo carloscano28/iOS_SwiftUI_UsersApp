@@ -12,7 +12,7 @@ class GetUserListUseCase {
         self.repository = repository
     }
     
-    func execute() async throws -> [User] {
+    func execute() async throws -> UserResponse {
         return try await repository.getUsers()
     }
 }

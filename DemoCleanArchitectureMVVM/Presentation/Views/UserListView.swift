@@ -36,16 +36,26 @@ struct UserListView: View {
             ProgressView("Loading...")
 
         case .success(let users):
-            List(users) { user in
-                Button(action: {
-                    selectedUser = user
-                }) {
-                    VStack(alignment: .leading) {
-                        Text(user.name).font(.headline)
-                        Text(user.email).font(.subheadline).foregroundColor(.gray)
+            VStack {
+                if viewModel.isFromCache {
+                    Text("Showing offline data")
+                        .font(.caption)
+                        .foregroundColor(.orange)
+                }
+
+                List(users) { user in
+                    Button(action: {
+                        selectedUser = user
+                    }) {
+                        VStack(alignment: .leading) {
+                            Text(user.name).font(.headline)
+                            Text(user.email).font(.subheadline).foregroundColor(.gray)
+                        }
                     }
                 }
             }
+
+            
 
         case .error(let message):
             Text("Error: \(message)").foregroundColor(.red)
@@ -57,51 +67,52 @@ struct UserListView: View {
 
 struct UserListView_Previews: PreviewProvider {
     static var previews: some View {
-        let users = [
-            User(id: 1, name: "Carlos Cano", email: "carlos@example.com"),
-            User(id: 2, name: "Jane Doe", email: "jane@example.com"),
-            User(id: 3, name: "John Doe", email: "john@example.com"),
-            User(id: 4, name: "Alice Doe", email: "alice@example.com"),
-            User(id: 5, name: "Bob Doe", email: "bob@example.com"),
-            User(id: 6, name: "David Doe", email: "david@example.com"),
-            User(id: 7, name: "Emma Doe", email: "emma@example.com"),
-            User(id: 8, name: "Frank Doe", email: "frank@example.com"),
-            User(id: 9, name: "Grace Doe", email: "grace@example.com"),
-            User(id: 10, name: "Henry Doe", email: "henry@example.com"),
-            User(id: 11, name: "Isabella Doe", email: "isabella@example.com"),
-            User(id: 12, name: "Jack Doe", email: "jack@example.com"),
-            User(id: 13, name: "Katherine Doe", email: "katherine@example.com"),
-            User(id: 14, name: "Louis Doe", email: "louis@example.com"),
-            User(id: 15, name: "Mia Doe", email: "mia@example.com"),
-        ]
+        Group {
+            // Success state with cache indicator
+            let users = [
+                User(id: 1, name: "Carlos Cano", email: "carlos@example.com"),
+                User(id: 2, name: "Jane Doe", email: "jane@example.com")
+            ]
+            UserListView(viewModel: MockUserListViewModel(state: .success(data: users), isFromCache: true))
+                .previewDisplayName("Success (from cache)")
 
-        let viewModel = MockUserListViewModel(users: users)
-        UserListView(viewModel: viewModel)
+            // Loading state
+            UserListView(viewModel: MockUserListViewModel(state: .loading, isFromCache: false))
+                .previewDisplayName("Loading")
+
+            // Error state
+            UserListView(viewModel: MockUserListViewModel(state: .error(message: "No internet connection"), isFromCache: false))
+                .previewDisplayName("Error")
+        }
     }
 
+    /// Mock ViewModel that supports all ViewState cases
     class MockUserListViewModel: UserViewModelState {
-        init(users: [User]) {
+        init(state: ViewState<[User]>, isFromCache: Bool) {
             super.init(getUserListUseCase: DummyUseCase())
-            self.state = .success(data: users)
+            self.state = state
+            self.isFromCache = isFromCache
         }
 
+        /// Dummy use case for SwiftUI preview context
         class DummyUseCase: GetUserListUseCase {
             init() {
                 super.init(repository: DummyRepository())
             }
 
-            override func execute() async throws -> [User] {
-                return []
+            override func execute() async throws -> UserResponse {
+                return UserResponse(users: [], source: .remote)
             }
 
             class DummyRepository: UserRepository {
-                func getUsers() async throws -> [User] { return [] }
+                func getUsers() async throws -> UserResponse {
+                    return UserResponse(users: [], source: .remote)
+                }
             }
         }
 
         override func loadUsers() {
-            // do nothing
+            // Do nothing in preview
         }
     }
 }
-

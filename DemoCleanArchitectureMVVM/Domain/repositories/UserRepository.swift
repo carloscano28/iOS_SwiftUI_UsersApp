@@ -6,5 +6,5 @@
 //
 
 protocol UserRepository{
-    func getUsers() async throws -> [User]
+    func getUsers() async throws -> UserResponse
 }
