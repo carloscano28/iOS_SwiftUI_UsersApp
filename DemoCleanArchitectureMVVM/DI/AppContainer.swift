@@ -21,12 +21,14 @@ class AppContainer {
         }*/
         container.register(RemoteUserDataSource.self) { _ in
             let ds = RemoteUserDataSourceImpl()
-            ds.shouldSimulateError = false // Set to true for testing offline
+            ds.shouldSimulateError = false // ← Set to true for testing offline
             return ds
         }
         
         container.register(LocalUserDataSource.self) { _ in
-                    LocalUserDataSourceImpl()
+            let local = LocalUserDataSourceImpl()
+            local.shouldSimulateError = false // ← Change to true to simulate cache read failure
+            return local
         }
         
         // Repository
