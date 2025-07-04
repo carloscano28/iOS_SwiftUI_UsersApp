@@ -11,7 +11,7 @@ The architecture follows Clean Architecture principles with clear separation of 
 
 ```
 Domain/
-├── Entities/ # e.g., User
+├── Entities/ # UserResponse, # User, # DataSourceType 
 ├── Repositories/ # UserRepository
 └── UseCases/ # GetUserListUseCase
 
@@ -106,19 +106,6 @@ container.register(UserViewModelState.self) { ... }
 ---
 
 
-## 💾 Persistence (UserDefaults-based cache)
-
-The app implements local caching for offline support using `UserDefaults`.  
-
-**Repository strategy:**
-1. Tries to fetch fresh data from the remote API.
-2. On success, it saves the result to local storage.
-3. On failure (e.g., no internet), it loads the last saved data from local cache.
-
-This "fallback" or "cache-as-backup" logic is fully abstracted in the repository, and does not affect ViewModels or UseCases.
-
----
-
 ## 🧩 Data Transfer Objects (DTOs)
 
 To improve separation of concerns and follow Clean Architecture principles, a UserDTO was introduced in the data layer.
@@ -144,18 +131,31 @@ struct UserDTO: Decodable {
 
 ---
 
-## ▶️ Getting Started
 
+## 💾 Persistence (UserDefaults-based cache)
 
-1.- Clone the repo
+The app implements local caching for offline support using `UserDefaults`.  
 
-2.- Open in Xcode 15+
+**Repository strategy:**
+1. Tries to fetch fresh data from the remote API.
+2. On success, it saves the result to local storage.
+3. On failure (e.g., no internet), it loads the last saved data from local cache.
 
-3.- Switch to swiftui_view branch
+This "fallback" or "cache-as-backup" logic is fully abstracted in the repository, and does not affect ViewModels or UseCases.
 
-3.- Build and run
+---
 
-It fetches users from the API and displays them in a list
+## 🎯 Offline Mode Indicator (SwiftUI)
+
+When the app falls back to cached data (i.e., no internet), a banner appears in the UI:
+
+This is controlled by an `isFromCache` flag in the ViewModel, set based on whether data came from:
+
+- 🟢 `.remote` — API response
+- 🟠 `.cache` — Local storage fallback (e.g., UserDefaults)
+
+This provides a clear visual cue to the user when they are viewing potentially stale data.
+
 
 ---
 
@@ -187,6 +187,22 @@ This fallback logic is handled transparently in the repository layer and allows 
 
 ---
 
+## 🧩 SwiftUI Visual State Previews
+
+To help validate UI behavior across different states, the app includes SwiftUI previews for:
+
+- ✅ Successful user list (from cache or remote)
+- ⏳ Loading state
+- ❌ Error state (e.g. no internet)
+
+Previews are powered by a mock `UserViewModelState` that can simulate each `ViewState`.
+
+You can find and modify these previews inside UserListView_Previews.swift
+
+This makes UI testing and visual debugging faster without running the full app.
+
+---
+
 ## 🧪 Coming Soon
 ```
  - Unit tests for UseCase and ViewModel
@@ -196,6 +212,23 @@ This fallback logic is handled transparently in the repository layer and allows 
  - CreateUser (POST) use case
 
 ```
+
+---
+
+
+## ▶️ Getting Started
+
+
+1.- Clone the repo
+
+2.- Open in Xcode 15+
+
+3.- Switch to swiftui_view branch
+
+3.- Build and run
+
+It fetches users from the API and displays them in a list
+
 
 ---
 
