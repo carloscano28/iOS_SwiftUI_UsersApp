@@ -16,18 +16,25 @@ class AppContainer {
         container = Container()
         
         // DataSources
-       /* container.register(RemoteUserDataSource.self) { _ in
+        /*container.register(RemoteUserDataSource.self) { _ in
             RemoteUserDataSourceImpl()
         }*/
         container.register(RemoteUserDataSource.self) { _ in
             let ds = RemoteUserDataSourceImpl()
-            ds.shouldSimulateError = true // Set to true for testing offline
+            ds.shouldSimulateError = false // Set to true for testing offline
             return ds
+        }
+        
+        container.register(LocalUserDataSource.self) { _ in
+                    LocalUserDataSourceImpl()
         }
         
         // Repository
         container.register(UserRepository.self) { r in
-            UserRepositoryImpl(remoteDataSource: r.resolve(RemoteUserDataSource.self)!)
+            UserRepositoryImpl(
+                remoteDataSource: r.resolve(RemoteUserDataSource.self)!,
+                localDataSource: r.resolve(LocalUserDataSource.self)!
+            )
         }
         
         // UseCases
@@ -35,7 +42,7 @@ class AppContainer {
             GetUserListUseCase(repository: r.resolve(UserRepository.self)!)
         }
         
-        // ViewModel para SwiftUI
+        // ViewModel
         container.register(UserViewModelState.self) { r in
             UserViewModelState(getUserListUseCase: r.resolve(GetUserListUseCase.self)!)
         }
