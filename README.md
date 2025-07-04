@@ -161,16 +161,29 @@ It fetches users from the API and displays them in a list
 
 ## 🔌 Simulation Mode
 
-The app supports simulating offline or HTTP error scenarios for development and testing.
+🧪 Error Simulation Scenarios
 
-You can enable it by setting this flag in `AppContainer.swift`:
+The app supports simulating offline mode and cache read failures using internal flags in the data source implementations. This helps test fallback behavior and offline UX without needing to actually disconnect from the network.
 
-```swift
-let impl = RemoteUserDataSourceImpl()
-impl.shouldSimulateError = true // ← Simulate offline or server failure
+🔧 Configuration
+You can toggle error simulation inside AppContainer.swift:
 ```
+// Remote (simulate HTTP/network failure)
+let remote = RemoteUserDataSourceImpl()
+remote.shouldSimulateError = true
 
-This will trigger the .error state in the ViewModel, allowing you to test UI behavior when the network fails.
+// Local (simulate cache corruption or read failure)
+let local = LocalUserDataSourceImpl()
+local.shouldSimulateError = false
+```
+🧬 Supported Scenarios
+| Scenario            | Remote Error | Local Error | Result in UI                           |
+| ------------------- | ------------ | ----------- | -------------------------------------- |
+| ✅ Normal behavior   | ❌ No         | ❌ No        | Loads fresh users from API             |
+| 🌐 Offline fallback | ✅ Yes        | ❌ No        | Loads cached users (from UserDefaults) |
+| ❌ No data available | ✅ Yes        | ✅ Yes       | Shows error message                    |
+
+This fallback logic is handled transparently in the repository layer and allows you to verify how the app responds visually under unreliable network or storage conditions.
 
 ---
 
