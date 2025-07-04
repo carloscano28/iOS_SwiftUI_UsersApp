@@ -16,7 +16,7 @@ Domain/
 └── UseCases/ # GetUserListUseCase
 
 Data/
-├── DataSources/ # RemoteUserDataSource (uses URLSession)
+├── DataSources/ # LocalUserDataSource, # RemoteUserDataSource (uses URLSession)
 ├── DTOs/ # UserDTO
 └── Repositories/ # UserRepositoryImpl
 
@@ -33,6 +33,7 @@ DI/
 
 
 ## 📦 Tech Stack
+
 | Tech         | Purpose                                      |
 |--------------|----------------------------------------------|
 | Swift        | Language                                     |
@@ -41,7 +42,7 @@ DI/
 | Swinject     | Dependency Injection                         |
 | URLSession   | Networking                                   |
 | jsonplaceholder.typicode.com | Public API                   |
-
+| UserDefaults | Persistence                                  |
 
 ---
 
@@ -52,7 +53,7 @@ DI/
 ✅ Decoupled layers (data, domain, presentation)
 ✅ ViewState<T> to represent UI state (loading, success, error)
 ✅ UserListView with NavigationStack and UserDetailView
-✅ Real API integration with error handling and retry via Alert
+
 ```
 
 ---
@@ -73,13 +74,13 @@ Returns an array of users with id, name, email.
 UserListView
 └── shows loading or user list
 └── on tap → navigates to UserDetailView
-└── on error → shows Alert with Retry 
+└── on error → shows error message 
 ```
 
 ---
 
 
-## 🧠 ViewState Example
+## 🧪 ViewState Definition
 
 ```swift
 enum ViewState<T> {
@@ -90,6 +91,57 @@ enum ViewState<T> {
 
 Used in @Published var state: ViewState<[User]> inside the ViewModel.
 ```
+
+---
+
+## 🧩 Dependency Injection
+
+The project uses Swinject via AppContainer.swift:
+```
+container.register(UserRepository.self) { ... }
+container.register(GetUserListUseCase.self) { ... }
+container.register(UserViewModelState.self) { ... }
+```
+
+---
+
+
+## 💾 Persistence (UserDefaults-based cache)
+
+The app implements local caching for offline support using `UserDefaults`.  
+
+**Repository strategy:**
+1. Tries to fetch fresh data from the remote API.
+2. On success, it saves the result to local storage.
+3. On failure (e.g., no internet), it loads the last saved data from local cache.
+
+This "fallback" or "cache-as-backup" logic is fully abstracted in the repository, and does not affect ViewModels or UseCases.
+
+---
+
+## 🧩 Data Transfer Objects (DTOs)
+
+To improve separation of concerns and follow Clean Architecture principles, a UserDTO was introduced in the data layer.
+```
+import Foundation
+
+struct UserDTO: Decodable {
+    let id: Int
+    let name: String
+    let email: String
+
+    func toDomain() -> User {
+        return User(id: id, name: name, email: email)
+    }
+}
+```
+
+- UserDTO is responsible for decoding API responses.
+
+- It includes a toDomain() method that converts the DTO into a User domain entity.
+
+- This approach decouples the network data model from the domain model, making the codebase more modular, testable, and maintainable.
+
 ---
 
 ## ▶️ Getting Started
@@ -104,19 +156,6 @@ Used in @Published var state: ViewState<[User]> inside the ViewModel.
 3.- Build and run
 
 It fetches users from the API and displays them in a list
-
-
----
-
-🧩 Data Transfer Objects (DTOs)
-
-To improve separation of concerns and follow Clean Architecture principles, a UserDTO was introduced in the data layer.
-
-- UserDTO is responsible for decoding API responses.
-
-- It includes a toDomain() method that converts the DTO into a User domain entity.
-
-- This approach decouples the network data model from the domain model, making the codebase more modular, testable, and maintainable.
 
 ---
 
@@ -137,10 +176,12 @@ This will trigger the .error state in the ViewModel, allowing you to test UI beh
 
 ## 🧪 Coming Soon
 ```
- - Add persistence (CoreData)
  - Unit tests for UseCase and ViewModel
  - ErrorView and LoadingView components
- - Dependency inversion for URLSession (mockable) 
+ - Dependency inversion for URLSession (mockable)
+ - Add error handling and retry via Alert
+ - CreateUser (POST) use case
+
 ```
 
 ---
